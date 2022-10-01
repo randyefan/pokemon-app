@@ -38,7 +38,7 @@ class PokemonServiceImpl: PokemonService {
     
     // MARK: - Private Func
     private func makeParameters(query: String, page: Int) -> [String: Any] {
-        let newQuery = query.isEmpty ? "" : "name:\(query)"
+        let newQuery = query.isEmpty ? "" : "name:\"\(query)\""
         let parameters: [String: Any] = [
             "q": newQuery,
             "page": page,

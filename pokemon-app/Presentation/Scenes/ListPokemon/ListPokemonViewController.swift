@@ -30,11 +30,20 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCollectionView()
         setupNavbar()
         setupView()
     }
     
     // MARK: - Private Func
+    
+    private func setupCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: collectionView.frame.width / 2, height: 60)
+        layout.sectionInset = .zero
+        collectionView.collectionViewLayout = layout
+    }
     
     private func setupNavbar() {
         navigationItem.titleView = searchBar

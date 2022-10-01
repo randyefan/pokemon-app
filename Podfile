@@ -6,11 +6,16 @@ target 'pokemon-app' do
   use_frameworks!
 
   # Pods for pokemon-app
+  
+  # Rx Swift
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
+  
+  # View tools
   pod 'SDWebImage', '~> 5.0'
   pod 'SnapKit'
+  pod 'SkeletonView'
 
   # Networking
   pod 'Alamofire'

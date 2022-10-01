@@ -8,11 +8,11 @@
 import Foundation
 import RxSwift
 
-protocol ListPokemonUseCase {
+protocol PokemonListUseCase {
     func execute(query: String, page: Int) -> Observable<Result<PokemonPage, PokemonListError>>
 }
 
-class DefaultListPokemonUseCase: ListPokemonUseCase {
+class DefaultPokemonListUseCase: PokemonListUseCase {
     
     private let repository: PokemonListRepository
     

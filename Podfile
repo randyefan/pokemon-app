@@ -10,6 +10,7 @@ target 'pokemon-app' do
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'SDWebImage', '~> 5.0'
+  pod 'SnapKit'
 
   # Networking
   pod 'Alamofire'

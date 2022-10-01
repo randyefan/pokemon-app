@@ -6,6 +6,7 @@ target 'pokemon-app' do
   use_frameworks!
 
   # Pods for pokemon-app
+  pod 'FLEX'
   
   # Rx Swift
   pod 'RxSwift'

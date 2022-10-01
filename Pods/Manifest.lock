@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (5.5.0)
   - Differentiator (5.0.0)
+  - FLEX (4.6.1)
   - RxAlamofire (6.1.1):
     - RxAlamofire/Core (= 6.1.1)
   - RxAlamofire/Core (6.1.1):
@@ -26,6 +27,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - FLEX
   - RxAlamofire
   - RxCocoa
   - RxDataSources
@@ -39,6 +41,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Differentiator
+    - FLEX
     - RxAlamofire
     - RxCocoa
     - RxDataSources
@@ -52,6 +55,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  FLEX: bbc55d197f87d7cde2454c3981aa47069b694144
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
@@ -62,6 +66,6 @@ SPEC CHECKSUMS:
   SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 4649c5d160e1b283e52e4dd75beb2a5cab3f0f3d
+PODFILE CHECKSUM: 9bfd2eb1bb7d677794aea314442d61471c5fa74c
 
 COCOAPODS: 1.11.3

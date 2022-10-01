@@ -18,7 +18,7 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     
     lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collection.backgroundColor = .red
+        collection.backgroundColor = .white
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.register(PokemonCardCollectionCell.self, forCellWithReuseIdentifier: PokemonCardCollectionCell.reuseId)
@@ -30,23 +30,22 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavbar()
         setupView()
     }
     
     // MARK: - Private Func
     
+    private func setupNavbar() {
+        navigationItem.titleView = searchBar
+    }
+    
     private func setupView() {
+        view.backgroundColor = .white
         view.addSubview(collectionView)
-        view.addSubview(searchBar)
-        
-        searchBar.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(36)
-        }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar)
-            make.bottom.leading.trailing.equalToSuperview()
+            make.leading.trailing.bottom.top.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }

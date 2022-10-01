@@ -9,12 +9,12 @@ import Foundation
 
 struct PokemonPage {
     let page: Int
-    let totalPages: Int
+    let count: Int
     let pokemons: [Pokemon]
     
-    init(page: Int, totalPages: Int, pokemons: [Pokemon]) {
+    init(page: Int, count: Int, pokemons: [Pokemon]) {
         self.page = page
-        self.totalPages = totalPages
+        self.count = count
         self.pokemons = pokemons
     }
 }

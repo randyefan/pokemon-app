@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxCocoa
 import RxSwift
 
 extension Observable where Element == (HTTPURLResponse, Data) {
@@ -27,6 +28,14 @@ extension Observable where Element == (HTTPURLResponse, Data) {
                 
                 return .failure(apiError)
             }
+        }
+    }
+}
+
+extension ObservableType {
+    func asDriverOnErrorJustComplete() -> Driver<Element> {
+        return asDriver { error in
+            return Driver.empty()
         }
     }
 }

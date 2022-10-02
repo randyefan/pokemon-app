@@ -33,7 +33,6 @@ class PokemonServiceImpl: PokemonService {
                 
                 return Observable.just(newResult)
             }
-            .debug()
     }
     
     // MARK: - Private Func
@@ -43,7 +42,7 @@ class PokemonServiceImpl: PokemonService {
             "q": newQuery,
             "page": page,
             "pageSize": 10,
-            "select": "id,name,flavorText,types,supertype,subtypes,images"
+            "select": "id,name,flavorText,types,supertype,subtypes,images,hp"
         ]
         
         return parameters

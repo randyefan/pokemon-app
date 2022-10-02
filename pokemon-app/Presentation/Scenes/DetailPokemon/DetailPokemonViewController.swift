@@ -70,6 +70,18 @@ class DetailPokemonViewController: MVVMViewController<DetailPokemonViewModel> {
         componentView.collectionView.collectionViewLayout = layout
     }
     
+    private func setupPreviewImage() {
+        let newImageView = DetailPokemonPreviewImageView(frame: UIScreen.main.bounds)
+        newImageView.image = componentView.imageView.image
+        
+        newImageView.imageTapGesture.rx.event.asDriver()
+            .drive(onNext: { _ in
+                newImageView.removeFromSuperview()
+            }).disposed(by: disposeBag)
+        
+        view.addSubview(newImageView)
+    }
+    
 }
 
 extension DetailPokemonViewController {
@@ -88,10 +100,14 @@ extension DetailPokemonViewController {
             }
             
             return newData
-        }
-            .drive(componentView.collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
-                cell.bind(viewModel)
-            }.disposed(by: disposeBag)
+        }.drive(componentView.collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
+            cell.bind(viewModel)
+        }.disposed(by: disposeBag)
+        
+        componentView.imageTapGesture.rx.event.asDriver()
+            .drive(onNext: { [unowned self] _ in
+                self.setupPreviewImage()
+            }).disposed(by: disposeBag)
         
         componentView.collectionView.rx
             .setDelegate(self)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailPokemonContentLabelView: UIView {
+final class DetailPokemonContentLabelView: UIView {
     
     // MARK: - Component Variable
     

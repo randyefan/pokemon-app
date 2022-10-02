@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - Detail Pokemon Content View
 
-class DetailPokemonContentView: UIView {
+final class DetailPokemonContentView: UIView {
     
     // MARK: - Component Variable
     
@@ -28,6 +28,11 @@ class DetailPokemonContentView: UIView {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
+    }()
+    
+    lazy var imageTapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        return gesture
     }()
     
     lazy var topInfo: DetailPokemonContentLabelView = {
@@ -84,7 +89,7 @@ class DetailPokemonContentView: UIView {
         imageView.sd_setImage(with: viewModel.image, placeholderImage: UIImage(named: "imageBroken"))
         
         // Top Info
-        let subtitle = "\(viewModel.pokemon.types?.joined(separator: ", ") ?? "") (HP\(viewModel.pokemon.hp ?? ""))"
+        let subtitle = "\(viewModel.pokemon.types?.joined(separator: ", ") ?? "") (HP \(viewModel.pokemon.hp ?? ""))"
         let subtitleTwo = "\(viewModel.pokemon.superType ?? "") - \(viewModel.pokemon.subtypes?.joined(separator: ", ") ?? "")"
         
         topInfo.setupView(title: viewModel.pokemon.name ?? "",
@@ -116,6 +121,7 @@ class DetailPokemonContentView: UIView {
         stackView.addArrangedSubview(collectionView)
         
         backgroundImageView.addSubview(imageView)
+        backgroundImageView.addGestureRecognizer(imageTapGesture)
         
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

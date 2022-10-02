@@ -7,7 +7,6 @@
 
 import UIKit
 import RxCocoa
-import RxDataSources
 
 class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     

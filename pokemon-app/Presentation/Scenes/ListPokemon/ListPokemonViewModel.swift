@@ -27,11 +27,13 @@ final class ListPokemonViewModel: ViewModelType {
         var page = 0
         var needFetch = true
         
-        let triggerSearch = input.search.do(onNext: { _ in
-            page = 0
-            needFetch = true
-            data = []
-            errorTracker.accept("")
+        let triggerSearch = input.search
+            .throttle(RxTimeInterval.seconds(1))
+            .do(onNext: { _ in
+                page = 0
+                needFetch = true
+                data = []
+                errorTracker.accept("")
         })
         
         let trigger = Driver.combineLatest(input.trigger, triggerSearch)

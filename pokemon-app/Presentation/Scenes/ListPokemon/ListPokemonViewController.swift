@@ -140,6 +140,16 @@ extension ListPokemonViewController {
             })
             .disposed(by: disposeBag)
         
+        output.pokemon
+            .filter { $0.count == 0 }
+            .withLatestFrom(output.error)
+            .filter { $0.isEmpty }
+            .drive { [weak self] _ in
+                self?.collectionView.isHidden = true
+                self?.errorLabel.text = "Search Not Found."
+            }
+            .disposed(by: disposeBag)
+        
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }

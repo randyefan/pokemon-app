@@ -27,8 +27,9 @@ struct Pokemon {
     let types: [String]?
     let subtypes: [String]?
     let images: URL?
+    let hp: String?
     
-    init(id: String?, name: String?, flavorText: String?, superType: String?, types: [String]?, subtypes: [String]?, images: URL?) {
+    init(id: String?, name: String?, flavorText: String?, superType: String?, types: [String]?, subtypes: [String]?, images: URL?, hp: String?) {
         self.id = id
         self.name = name
         self.flavorText = flavorText
@@ -36,5 +37,6 @@ struct Pokemon {
         self.types = types
         self.subtypes = subtypes
         self.images = images
+        self.hp = hp
     }
 }

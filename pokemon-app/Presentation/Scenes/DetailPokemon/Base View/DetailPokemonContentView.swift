@@ -84,9 +84,12 @@ class DetailPokemonContentView: UIView {
         imageView.sd_setImage(with: viewModel.image, placeholderImage: UIImage(named: "imageBroken"))
         
         // Top Info
+        let subtitle = "\(viewModel.pokemon.types?.joined(separator: ", ") ?? "") (HP\(viewModel.pokemon.hp ?? ""))"
+        let subtitleTwo = "\(viewModel.pokemon.superType ?? "") - \(viewModel.pokemon.subtypes?.joined(separator: ", ") ?? "")"
+        
         topInfo.setupView(title: viewModel.pokemon.name ?? "",
-                          subtitle: viewModel.pokemon.types?.joined(separator: ", ") ?? "",
-                          subtitleTwo: viewModel.pokemon.superType)
+                          subtitle: subtitle,
+                          subtitleTwo: subtitleTwo)
         
         // Flavor (if Any)
         if let flavor = viewModel.pokemon.flavorText {

@@ -27,6 +27,7 @@ struct NETPokemonDataResponse: Decodable {
     let flavorText: String?
     let subtypes: [String]?
     let types: [String]?
+    let hp: String?
     let images: NETPokemonDataImagesResponse?
     
     func asDomain() -> Pokemon {
@@ -34,7 +35,7 @@ struct NETPokemonDataResponse: Decodable {
         let subtypesString = subtypes ?? []
         let urlImage = URL(string: "\(images?.small ?? "")")
         
-        return Pokemon(id: id, name: name, flavorText: flavorText, superType: supertype, types: typesString, subtypes: subtypesString, images: urlImage)
+        return Pokemon(id: id, name: name, flavorText: flavorText, superType: supertype, types: typesString, subtypes: subtypesString, images: urlImage, hp: hp)
     }
 }
 

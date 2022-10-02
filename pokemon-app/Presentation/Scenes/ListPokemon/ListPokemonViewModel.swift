@@ -68,12 +68,17 @@ final class ListPokemonViewModel: ViewModelType {
             return new
         })
         
+        let tapTriggered = input.tap.withLatestFrom(pokemon) { (indexPath, pokemon) -> Pokemon in
+            return pokemon[indexPath.row]
+        }
+        
         let fetching = activityIndicator.asDriver()
         let error = errorTracker.asDriver()
         
         return Output(pokemon: pokemon,
                       fetching: fetching,
-                      error: error)
+                      error: error,
+                      navigateToDetail: tapTriggered)
     }
 }
 
@@ -81,11 +86,13 @@ extension ListPokemonViewModel {
     struct Input {
         let trigger: Driver<Void>
         let search: Driver<String>
+        let tap: Driver<IndexPath>
     }
     
     struct Output {
         let pokemon: Driver<[Pokemon]>
         let fetching: Driver<Bool>
         let error: Driver<Error>
+        let navigateToDetail: Driver<Pokemon>
     }
 }

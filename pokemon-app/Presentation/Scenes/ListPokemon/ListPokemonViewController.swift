@@ -52,7 +52,7 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = .zero
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
         
         collectionView.collectionViewLayout = layout
         collectionView.delegate = self
@@ -72,9 +72,18 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
             make.bottom.top.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    private func navigateToDetailPokemon(pokemon: Pokemon) {
+        let pokemonService = PokemonServiceImpl()
+        let pokemonListRepository = PokemonListRepositoryImpl(service: pokemonService)
+        let pokemonDetailVM = DetailPokemonViewModel(useCase: DefaultPokemonListUseCase(repository: pokemonListRepository), pokemon: pokemon)
+        let pokemonVC = DetailPokemonViewController(viewModel: pokemonDetailVM)
+        
+        self.navigationController?.pushViewController(pokemonVC, animated: true)
+    }
 }
 
-// MARK: - Extension CollectionFlowLayout
+// MARK: - Extension CollectionFlowLayout (For Sizing Cell)
 
 extension ListPokemonViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -87,7 +96,8 @@ extension ListPokemonViewController: UICollectionViewDelegateFlowLayout {
 extension ListPokemonViewController {
     private func bindViewModel() {
         let input = ListPokemonViewModel.Input(trigger: trigger.asDriverOnErrorJustComplete(),
-                                               search: searchBar.rx.text.orEmpty.asDriver())
+                                               search: searchBar.rx.text.orEmpty.asDriver(),
+                                               tap: collectionView.rx.itemSelected.asDriver())
         
         let output = viewModel.transform(input: input)
 
@@ -99,6 +109,10 @@ extension ListPokemonViewController {
             .drive(collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
                 cell.bind(viewModel)
             }.disposed(by: disposeBag)
+        
+        output.navigateToDetail.drive(onNext: { [unowned self] pokemon in
+            self.navigateToDetailPokemon(pokemon: pokemon)
+        }).disposed(by: disposeBag)
     }
 }
 

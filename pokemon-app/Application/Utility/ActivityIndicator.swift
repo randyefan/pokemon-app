@@ -49,6 +49,10 @@ final class ActivityIndicator: SharedSequenceConvertibleType {
         return _loading
     }
     
+    public func isFetching() -> Bool {
+        _behavior.value
+    }
+    
 }
 
 extension ObservableConvertibleType {

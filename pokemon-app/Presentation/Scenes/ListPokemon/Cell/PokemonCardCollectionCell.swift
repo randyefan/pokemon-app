@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import SkeletonView
+import SDWebImage
 
 class PokemonCardCollectionCell: UICollectionViewCell {
     
@@ -27,6 +28,26 @@ class PokemonCardCollectionCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Cell Lifecycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
+    // MARK: - Public Func
+    
+    func bind(_ viewModel: PokemonCardViewModel) {
+        if viewModel.isSkeleton {
+            isSkeletonable = true
+            showSkeleton()
+            startSkeletonAnimation()
+        } else {
+            hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+            imageView.sd_setImage(with: viewModel.image)
+        }
     }
     
     // MARK: -  Private Func

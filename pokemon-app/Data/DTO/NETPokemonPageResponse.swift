@@ -32,14 +32,14 @@ struct NETPokemonDataResponse: Decodable {
     func asDomain() -> Pokemon {
         let typesString = types ?? []
         let subtypesString = subtypes ?? []
-        let urlImage = URL(string: "\(images?.large ?? "")")
+        let urlImage = URL(string: "\(images?.small ?? "")")
         
         return Pokemon(id: id, name: name, flavorText: flavorText, superType: supertype, types: typesString, subtypes: subtypesString, images: urlImage)
     }
 }
 
 struct NETPokemonDataImagesResponse: Decodable {
-    let large: String?
+    let small: String?
 }
 
 // Error API

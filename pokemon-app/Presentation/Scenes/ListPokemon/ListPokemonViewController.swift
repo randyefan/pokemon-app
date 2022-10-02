@@ -27,6 +27,15 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
         return collection
     }()
     
+    lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        return label
+    }()
+    
     // MARK: - Variable
     
     let trigger: PublishRelay<Void> = .init()
@@ -63,12 +72,19 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     
     private func setupView() {
         view.backgroundColor = .white
+        view.addSubview(errorLabel)
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
             make.leading.equalTo(view).offset(8)
             make.trailing.equalTo(view).offset(-8)
             make.bottom.top.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        errorLabel.snp.makeConstraints { make in
+            make.leading.equalTo(view).offset(8)
+            make.trailing.equalTo(view).offset(-8)
+            make.centerY.equalTo(view)
         }
     }
     
@@ -112,6 +128,17 @@ extension ListPokemonViewController {
         output.navigateToDetail.drive(onNext: { [unowned self] pokemon in
             self.navigateToDetailPokemon(pokemon: pokemon)
         }).disposed(by: disposeBag)
+        
+        output.error
+            .drive(onNext: { [weak self] errorMessage in
+                if errorMessage.isEmpty {
+                    self?.collectionView.isHidden = false
+                } else {
+                    self?.collectionView.isHidden = true
+                    self?.errorLabel.text = errorMessage
+                }
+            })
+            .disposed(by: disposeBag)
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)

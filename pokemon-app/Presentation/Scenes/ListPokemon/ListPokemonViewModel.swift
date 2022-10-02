@@ -21,7 +21,7 @@ final class ListPokemonViewModel: ViewModelType {
     // MARK: -  TransForm
     func transform(input: Input) -> Output {
         let activityIndicator = ActivityIndicator()
-        let errorTracker = ErrorTracker()
+        let errorTracker: PublishRelay<String> = .init()
         
         var data = [Pokemon]()
         var page = 0
@@ -31,6 +31,7 @@ final class ListPokemonViewModel: ViewModelType {
             page = 0
             needFetch = true
             data = []
+            errorTracker.accept("")
         })
         
         let trigger = Driver.combineLatest(input.trigger, triggerSearch)
@@ -45,14 +46,14 @@ final class ListPokemonViewModel: ViewModelType {
                 return useCase.execute(query: searchText, page: page)
                     .observe(on: MainScheduler.instance)
                     .trackActivity(activityIndicator)
-                    .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
             }
         
         let pokemon = trigger.flatMapLatest { result -> Driver<[Pokemon]> in
             switch result {
+            
             case let .success(pokemonPage):
-                
+                // Stop request new page if count == 0
                 if pokemonPage.pokemons.count == 0 {
                     needFetch = false
                 }
@@ -60,7 +61,15 @@ final class ListPokemonViewModel: ViewModelType {
                 var newData = data
                 newData.append(contentsOf: pokemonPage.pokemons)
                 return .just(newData)
-            case .failure(_):
+                
+            case let .failure(error):
+                switch error {
+                case .unknown(message: let message):
+                    errorTracker.accept(message)
+                default:
+                    errorTracker.accept("System Error.")
+                }
+                
                 return .just([])
             }
         }.do { pokemon in
@@ -72,7 +81,7 @@ final class ListPokemonViewModel: ViewModelType {
         }
         
         let fetching = activityIndicator.asDriver()
-        let error = errorTracker.asDriver()
+        let error = errorTracker.asDriver(onErrorJustReturn: "")
         
         return Output(pokemon: pokemon,
                       fetching: fetching,
@@ -91,7 +100,7 @@ extension ListPokemonViewModel {
     struct Output {
         let pokemon: Driver<[Pokemon]>
         let fetching: Driver<Bool>
-        let error: Driver<Error>
+        let error: Driver<String>
         let navigateToDetail: Driver<Pokemon>
     }
 }

@@ -22,7 +22,6 @@ final class DetailPokemonViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let activityIndicator = ActivityIndicator()
-        let errorTracker = ErrorTracker()
         
         var page = 0
         var needFetch = true
@@ -39,7 +38,6 @@ final class DetailPokemonViewModel: ViewModelType {
                 return self.useCase.execute(query: "", page: page)
                     .observe(on: MainScheduler.instance)
                     .trackActivity(activityIndicator)
-                    .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
             }
         
@@ -61,11 +59,10 @@ final class DetailPokemonViewModel: ViewModelType {
         })
         
         let fetching = activityIndicator.asDriver()
-        let error = errorTracker.asDriver()
         
         return Output(data: pokemon,
                       fetching: fetching,
-                      error: error)
+                      error: .just(""))
     }
 }
 
@@ -77,6 +74,6 @@ extension DetailPokemonViewModel {
     struct Output {
         let data: Driver<[Pokemon]>
         let fetching: Driver<Bool>
-        let error: Driver<Error>
+        let error: Driver<String>
     }
 }

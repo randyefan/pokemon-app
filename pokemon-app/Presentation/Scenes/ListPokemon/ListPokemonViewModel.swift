@@ -52,21 +52,20 @@ final class ListPokemonViewModel: ViewModelType {
         let pokemon = trigger.flatMapLatest { result -> Driver<[Pokemon]> in
             switch result {
             case let .success(pokemonPage):
+                
+                if pokemonPage.pokemons.count == 0 {
+                    needFetch = false
+                }
+                
                 var newData = data
                 newData.append(contentsOf: pokemonPage.pokemons)
                 return .just(newData)
             case .failure(_):
                 return .just([])
             }
-        }.scan(data, accumulator: { current, newItem in
-            if newItem.count < 1 {
-                needFetch = false
-            }
-            
-            var new = current
-            new.append(contentsOf: newItem)
-            return new
-        })
+        }.do { pokemon in
+            data = pokemon
+        }
         
         let tapTriggered = input.tap.withLatestFrom(pokemon) { (indexPath, pokemon) -> Pokemon in
             return pokemon[indexPath.row]

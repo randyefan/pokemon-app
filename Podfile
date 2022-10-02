@@ -11,7 +11,6 @@ target 'pokemon-app' do
   # Rx Swift
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxDataSources'
   
   # View tools
   pod 'SDWebImage', '~> 5.0'

@@ -81,7 +81,7 @@ class DetailPokemonContentView: UIView {
     
     func setupView(viewModel: DetailPokemonContentViewModel) {
         // Image
-        imageView.sd_setImage(with: viewModel.image)
+        imageView.sd_setImage(with: viewModel.image, placeholderImage: UIImage(named: "imageBroken"))
         
         // Top Info
         topInfo.setupView(title: viewModel.pokemon.name ?? "",

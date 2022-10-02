@@ -21,7 +21,7 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
     lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collection.backgroundColor = .white
-        collection.showsVerticalScrollIndicator = true
+        collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.register(PokemonCardCollectionCell.self, forCellWithReuseIdentifier: PokemonCardCollectionCell.reuseId)
         return collection
@@ -115,15 +115,22 @@ extension ListPokemonViewController {
                                                tap: collectionView.rx.itemSelected.asDriver())
         
         let output = viewModel.transform(input: input)
-
-        output.pokemon
-            .flatMapLatest { (pokemon) -> Driver<[PokemonCardViewModel]> in
-                let newPokemon = pokemon.map { PokemonCardViewModel(image: $0.images, isSkeleton: false) }
-                return Driver.just(newPokemon)
+        
+        Driver.zip(output.pokemon.startWith([]), output.fetching.filter { $0 }.startWith(true)) { (data, isFetching) -> [PokemonCardViewModel] in
+            var newData = data.map { PokemonCardViewModel(image: $0.images) }
+            
+            if isFetching {
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
             }
-            .drive(collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
-                cell.bind(viewModel)
-            }.disposed(by: disposeBag)
+            
+            return newData
+        }
+        .drive(collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
+            cell.bind(viewModel)
+        }.disposed(by: disposeBag)
         
         output.navigateToDetail.drive(onNext: { [unowned self] pokemon in
             self.navigateToDetailPokemon(pokemon: pokemon)

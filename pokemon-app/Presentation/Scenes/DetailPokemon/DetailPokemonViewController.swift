@@ -78,10 +78,17 @@ extension DetailPokemonViewController {
         
         let output = viewModel.transform(input: input)
         
-        output.data
-            .flatMapLatest { (pokemon) -> Driver<[PokemonCardViewModel]> in
-                    .just(pokemon.map { PokemonCardViewModel(image: $0.images, isSkeleton: false) })
+        Driver.zip(output.data.startWith([]), output.fetching.filter { $0 }.startWith(true)) { (data, isFetching) -> [PokemonCardViewModel] in
+            var newData = data.map { PokemonCardViewModel(image: $0.images) }
+            
+            if isFetching {
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
+                newData.append(PokemonCardViewModel(image: nil, isSkeleton: true))
             }
+            
+            return newData
+        }
             .drive(componentView.collectionView.rx.items(cellIdentifier: PokemonCardCollectionCell.reuseId, cellType: PokemonCardCollectionCell.self)) { row, viewModel, cell in
                 cell.bind(viewModel)
             }.disposed(by: disposeBag)

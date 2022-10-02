@@ -28,7 +28,7 @@ final class ListPokemonViewModel: ViewModelType {
         var needFetch = true
         
         let triggerSearch = input.search
-            .throttle(RxTimeInterval.seconds(1))
+            .debounce(RxTimeInterval.nanoseconds(1))
             .do(onNext: { _ in
                 page = 0
                 needFetch = true

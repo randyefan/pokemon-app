@@ -46,7 +46,7 @@ class PokemonCardCollectionCell: UICollectionViewCell {
             startSkeletonAnimation()
         } else {
             hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
-            imageView.sd_setImage(with: viewModel.image)
+            imageView.sd_setImage(with: viewModel.image, placeholderImage: UIImage(named: "imageBroken"))
         }
     }
     

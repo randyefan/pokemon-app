@@ -48,7 +48,7 @@ class DetailPokemonContentView: UIView {
     
     lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collection.backgroundColor = .black
+        collection.backgroundColor = .white
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.register(PokemonCardCollectionCell.self, forCellWithReuseIdentifier: PokemonCardCollectionCell.reuseId)
@@ -83,20 +83,20 @@ class DetailPokemonContentView: UIView {
         // Image
         imageView.sd_setImage(with: viewModel.image)
         
+        // Top Info
         topInfo.setupView(title: viewModel.pokemon.name ?? "",
                           subtitle: viewModel.pokemon.types?.joined(separator: ", ") ?? "",
                           subtitleTwo: viewModel.pokemon.superType)
         
+        // Flavor (if Any)
         if let flavor = viewModel.pokemon.flavorText {
             isNeedShowFlavor = true
-            
             bottomInfo.setupView(title: "Flavor",
                                  subtitle: flavor)
         }
         
+        // Other Cards Title
         titleOtherCards.text = "Other Cards"
-        
-    
     }
     
     // MARK: - Private Func
@@ -106,11 +106,9 @@ class DetailPokemonContentView: UIView {
         
         stackView.addArrangedSubview(backgroundImageView)
         stackView.addArrangedSubview(topInfo)
-        
         if isNeedShowFlavor {
             stackView.addArrangedSubview(bottomInfo)
         }
-        
         stackView.addArrangedSubview(titleOtherCards)
         stackView.addArrangedSubview(collectionView)
         
@@ -131,91 +129,6 @@ class DetailPokemonContentView: UIView {
         
         collectionView.snp.makeConstraints { make in
             make.height.equalTo(240)
-        }
-    }
-}
-
-// MARK: - Detail Pokemon Content Label
-
-class DetailPokemonContentLabelView: UIView {
-    
-    // MARK: - Component Variable
-    
-    lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 4
-        return stackView
-    }()
-    
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        return label
-    }()
-    
-    lazy var subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        return label
-    }()
-    
-    lazy var subtitleTwoLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        return label
-    }()
-    
-    // MARK: - Variable
-    
-    private var isShowSubtitleTwo: Bool = false
-    
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - View Lifecycle
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layout()
-    }
-    
-    // MARK: - Public Func
-    
-    func setupView(title: String, subtitle: String, subtitleTwo: String? = nil) {
-        titleLabel.text = title
-        subtitleLabel.text = subtitle
-        
-        if let subtitleTwo = subtitleTwo {
-            isShowSubtitleTwo = true
-            subtitleTwoLabel.text = subtitleTwo
-        }
-    }
-    
-    // MARK: - Private Func
-    
-    private func layout() {
-        addSubview(stackView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
-        
-        if isShowSubtitleTwo {
-            stackView.addArrangedSubview(subtitleTwoLabel)
-        }
-        
-        stackView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalToSuperview()
         }
     }
 }

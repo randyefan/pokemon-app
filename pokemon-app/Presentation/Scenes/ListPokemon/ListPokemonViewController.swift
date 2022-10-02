@@ -55,7 +55,6 @@ class ListPokemonViewController: MVVMViewController<ListPokemonViewModel> {
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
         
         collectionView.collectionViewLayout = layout
-        collectionView.delegate = self
     }
     
     private func setupNavbar() {
@@ -113,6 +112,9 @@ extension ListPokemonViewController {
         output.navigateToDetail.drive(onNext: { [unowned self] pokemon in
             self.navigateToDetailPokemon(pokemon: pokemon)
         }).disposed(by: disposeBag)
+        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
 }
 

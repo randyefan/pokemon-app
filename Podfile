@@ -4,9 +4,6 @@
 target 'pokemon-app' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-
-  # Pods for pokemon-app
-  pod 'FLEX'
   
   # Rx Swift
   pod 'RxSwift'

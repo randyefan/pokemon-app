@@ -19,7 +19,7 @@ struct PokemonPage {
     }
 }
 
-struct Pokemon {
+struct Pokemon: Equatable {
     let id: String?
     let name: String?
     let flavorText: String?

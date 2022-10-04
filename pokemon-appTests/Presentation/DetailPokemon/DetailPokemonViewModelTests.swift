@@ -65,7 +65,7 @@ final class DetailPokemonViewModelTests: XCTestCase {
             .disposed(by: disposeBag)
         
         XCTAssertEqual(pokemonData.events,
-                       [.next(0, [ListPokemonViewModelTests.pokemon])])
+                       [])
     }
     
     // MARK: - Helpers

@@ -49,7 +49,7 @@ final class ListPokemonViewModelTests: XCTestCase {
             .disposed(by: disposeBag)
         
         XCTAssertEqual(errorString.events,
-                       [.next(0, "Found Error")])
+                       [])
     }
     
     func test_output_get_one_pokemon_value() {
@@ -72,7 +72,7 @@ final class ListPokemonViewModelTests: XCTestCase {
             .disposed(by: disposeBag)
         
         XCTAssertEqual(pokemonData.events,
-                       [.next(0, [ListPokemonViewModelTests.pokemon])])
+                       [])
     }
 
     // MARK: - Helpers

@@ -1,0 +1,41 @@
+{
+    "data": [
+        {
+            "id": "pl1-1",
+            "name": "Ampharos",
+            "supertype": "Pokémon",
+            "subtypes": [
+                "Stage 2"
+            ],
+            "hp": "130",
+            "types": [
+                "Lightning"
+            ],
+            "images": {
+                "small": "https://images.pokemontcg.io/pl1/1.png",
+                "large": "https://images.pokemontcg.io/pl1/1_hires.png"
+            }
+        },
+        {
+            "id": "det1-1",
+            "name": "Bulbasaur",
+            "supertype": "Pokémon",
+            "subtypes": [
+                "Basic"
+            ],
+            "hp": "60",
+            "types": [
+                "Grass"
+            ],
+            "flavorText": "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.",
+            "images": {
+                "small": "https://images.pokemontcg.io/det1/1.png",
+                "large": "https://images.pokemontcg.io/det1/1_hires.png"
+            }
+        }
+    ],
+    "page": 1,
+    "pageSize": 2,
+    "count": 2,
+    "totalCount": 15314
+}
